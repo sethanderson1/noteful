@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import {Route, Link} from 'react-router-dom';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import NoteListNav from '../NoteListNav/NoteListNav';
+// import NoteListNav from '../NoteListNav/NoteListNav';
+import NoteListNavHook from '../NoteListNavHook/NoteListNavHook';
 import NotePageNav from '../NotePageNav/NotePageNav';
 import NoteListMain from '../NoteListMain/NoteListMain';
 import NotePageMain from '../NotePageMain/NotePageMain';
@@ -50,7 +51,10 @@ class App extends Component {
                         exact
                         key={path}
                         path={path}
-                        component={NoteListNav}
+                        render={() => <NoteListNavHook state={this.state}/> }
+                        // render wont display folders so need component
+                        // component={NoteListNavHook}
+                        // component={NoteListNav}
                     />
                 ))}
                 <Route path="/note/:noteId" component={NotePageNav} />
