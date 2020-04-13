@@ -52,7 +52,7 @@ class App extends Component {
                         key={path}
                         path={path}
                         render={() => <NoteListNavHook state={this.state}/> }
-                        // render wont display folders so need component
+                        // render wont display folders unless click back aso need component
                         // component={NoteListNavHook}
                         // component={NoteListNav}
                     />
