@@ -6,6 +6,7 @@ import NoteListNavHook from '../NoteListNavHook/NoteListNavHook';
 import NotePageNav from '../NotePageNav/NotePageNav';
 import NoteListMain from '../NoteListMain/NoteListMain';
 import NotePageMain from '../NotePageMain/NotePageMain';
+import AddFolder from '../AddFolder/AddFolder';
 import ApiContext from '../ApiContext';
 import config from '../config';
 import './App.css';
@@ -27,8 +28,8 @@ class App extends Component {
                 if (!foldersRes.ok)
                     return foldersRes.json().then(e => Promise.reject(e));
 
-                return Promise.all([notesRes.json(), foldersRes.json()]);
-            })
+                    return Promise.all([notesRes.json(), foldersRes.json()]);
+                })
             .then(([notes, folders]) => {
                 this.setState({notes, folders});
             })
@@ -36,6 +37,9 @@ class App extends Component {
                 console.error({error});
             });
     }
+
+    // ****** fetch needs to be in componentDidMount because it sets state
+    // and would trigger re-render repeatedly?
 
     handleDeleteNote = noteId => {
         this.setState({
@@ -51,8 +55,9 @@ class App extends Component {
                         exact
                         key={path}
                         path={path}
-                        render={() => <NoteListNavHook state={this.state}/> }
-                        // render wont display folders unless click back aso need component
+                        component={() => <NoteListNavHook state={this.state}/> }
+                        // render wont display folders unless click back so need component
+                        // downside of component instead of render is that re... something...
                         // component={NoteListNavHook}
                         // component={NoteListNav}
                     />
@@ -76,6 +81,8 @@ class App extends Component {
                     />
                 ))}
                 <Route path="/note/:noteId" component={NotePageMain} />
+                <Route path="/add-folder" component={AddFolder} />
+
             </>
         );
     }

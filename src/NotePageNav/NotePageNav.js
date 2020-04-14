@@ -40,7 +40,6 @@ export default class NotePageNav extends React.Component {
             {folder.name}
           </h3>
         )}
-        {/* *********how does && trick work */}
       </div>
     )
   }
