@@ -1,23 +1,30 @@
-import React, {Component} from 'react';
-import {Route, Link} from 'react-router-dom';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import React, { Component } from 'react';
+import { Route, Link } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 // import NoteListNav from '../NoteListNav/NoteListNav';
 import NoteListNavHook from '../NoteListNavHook/NoteListNavHook';
 import NotePageNav from '../NotePageNav/NotePageNav';
 import NoteListMain from '../NoteListMain/NoteListMain';
 import NotePageMain from '../NotePageMain/NotePageMain';
 import AddFolder from '../AddFolder/AddFolder';
+import AddNote from '../AddNote/AddNote';
 import ApiContext from '../ApiContext';
 import config from '../config';
 import './App.css';
+import getFolders from '../getFolders';
 
 class App extends Component {
+
     state = {
         notes: [],
         folders: []
     };
 
     componentDidMount() {
+        this.fetchUpdates()
+    }
+
+    fetchUpdates = () => {
         Promise.all([
             fetch(`${config.API_ENDPOINT}/notes`),
             fetch(`${config.API_ENDPOINT}/folders`)
@@ -27,24 +34,27 @@ class App extends Component {
                     return notesRes.json().then(e => Promise.reject(e));
                 if (!foldersRes.ok)
                     return foldersRes.json().then(e => Promise.reject(e));
-
-                    return Promise.all([notesRes.json(), foldersRes.json()]);
-                })
+                return Promise.all([notesRes.json(), foldersRes.json()]);
+            })
             .then(([notes, folders]) => {
-                this.setState({notes, folders});
+                this.setState({ notes, folders });
             })
             .catch(error => {
-                console.error({error});
+                console.error({ error });
             });
     }
-
-    // ****** fetch needs to be in componentDidMount because it sets state
-    // and would trigger re-render repeatedly?
 
     handleDeleteNote = noteId => {
         this.setState({
             notes: this.state.notes.filter(note => note.id !== noteId)
         });
+    };
+
+    handleDeleteFolder = folderId => {
+        this.setState({
+            notes: this.state.folders.filter(folder => folder.id !== folderId)
+        });
+        this.fetchUpdates()
     };
 
     renderNavRoutes() {
@@ -55,16 +65,19 @@ class App extends Component {
                         exact
                         key={path}
                         path={path}
-                        component={() => <NoteListNavHook state={this.state}/> }
-                        // render wont display folders unless click back so need component
-                        // downside of component instead of render is that re... something...
-                        // component={NoteListNavHook}
-                        // component={NoteListNav}
+                        component={() => <NoteListNavHook
+                            state={this.state}
+                            // fetchUpdates={this.fetchUpdates}
+                            handleDeleteFolder={this.handleDeleteFolder}
+                        />}
+                    // render wont display folders unless click back so need component
+                    // component={NoteListNav}
                     />
                 ))}
                 <Route path="/note/:noteId" component={NotePageNav} />
                 <Route path="/add-folder" component={NotePageNav} />
                 <Route path="/add-note" component={NotePageNav} />
+
             </>
         );
     }
@@ -81,8 +94,20 @@ class App extends Component {
                     />
                 ))}
                 <Route path="/note/:noteId" component={NotePageMain} />
-                <Route path="/add-folder" component={AddFolder} />
-
+                <Route path="/add-folder"
+                    component={(routeProps) => <AddFolder
+                        // handleAddFolder={this.handleAddFolder}
+                        fetchUpdates={this.fetchUpdates}
+                        state={this.state}
+                        routeProps={routeProps} />} />
+                <Route path="/add-note"
+                    component={(routeProps) => <AddNote
+                        // handleAddNote={this.handleAddNote}
+                        fetchUpdates={this.fetchUpdates}
+                        state={this.state}
+                        routeProps={routeProps} />} />
+                {/* <Route path="/add-folder" component={() => <AddFolder state={this.state} />}/> */}
+                {/* <Route path="/add-folder" component={AddFolder}/> */}
             </>
         );
     }
@@ -91,8 +116,10 @@ class App extends Component {
         const value = {
             notes: this.state.notes,
             folders: this.state.folders,
-            deleteNote: this.handleDeleteNote
+            deleteNote: this.handleDeleteNote,
+            deleteFolder: this.handleDeleteFolder,
         };
+        console.log('folders', this.state.folders)
         return (
             <ApiContext.Provider value={value}>
                 <div className="App">

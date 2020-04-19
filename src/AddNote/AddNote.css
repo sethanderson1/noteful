@@ -1,0 +1,20 @@
+ .AddNote {
+    color:#fff;
+}
+
+input,label {
+    display:block;
+}
+
+.note-label,.select-folder-label {
+    padding-left: 1rem;
+    padding-bottom: 0.2rem;
+    padding-top: 0.7rem;
+}
+
+input,textarea,#select-folder {
+    margin-left:1rem;
+    
+
+}
+
