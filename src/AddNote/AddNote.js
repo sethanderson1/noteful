@@ -5,13 +5,17 @@ import { v4 as uuid4 } from 'uuid'
 import { setMinutes } from 'date-fns';
 import config from '../config';
 import ApiContext from '../ApiContext';
+import ValidationError from '../ValidationError/ValidationError'
+
 
 const AddNote = (props) => {
     const context = useContext(ApiContext)
     // console.log('context from AddNote', context)
-    const [note, setNote] = useState()
-    const [noteContent, setNoteContent] = useState()
-    const [folder, setFolder] = useState(context.folders[2] || {})
+    const [note, setNote] = useState('')
+    const [noteContent, setNoteContent] = useState('')
+    const [folder, setFolder] = useState(context.folders[0] || {})
+    const [nameTouched, setNameTouched] = useState(false)
+    const [contentTouched, setContentTouched] = useState(false)
     // console.log('context.folders[1]', context.folders[1])
     // const [folder, setFolder] = useState(context.folders[0] || {id:'',name:''}) 
     // actually, if there are no folders, they should not have option to create note
@@ -25,18 +29,16 @@ const AddNote = (props) => {
 
     const updateName = (e) => {
         setNote(e.target.value)
-        // console.log('note name from updateName', note)
+        updateNameTouched()
     }
 
     const updateContent = (e) => {
         setNoteContent(e.target.value)
-        // console.log('note content from updateContent', noteContent)
+        updateContentTouched()
     }
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        // console.log('note from handleSubmit', note)
-
         postNote();
     }
 
@@ -59,10 +61,18 @@ const AddNote = (props) => {
 
             })
         })
+            .then(res => {
+                if (!res.ok)
+                    return res.json().then(e => Promise.reject(e));
+                return res.json();
+            })
             .then(
                 handleFinishedFetch(),
                 props.routeProps.history.push('/'),
             )
+            .catch(error => {
+                console.error({ error });
+            });
     }
     const handleFinishedFetch = () => {
         console.log('props', props)
@@ -82,9 +92,34 @@ const AddNote = (props) => {
         )
     }
 
+    const updateNameTouched = () => {
+        if (!nameTouched) {
+            return setNameTouched(true)
+        }
+    }
 
+    const updateContentTouched = () => {
+        if (!nameTouched) {
+            return setContentTouched(true)
+        }
+    }
+
+    const validateName = () => {
+        const noteName = note.trim()
+        if (noteName.length === 0) {
+            return '*name is required'
+        }
+    }
+
+    const validateContent = () => {
+        const content = noteContent.trim()
+        if (content.length === 0) {
+            return '*content cannot be empty'
+        }
+    }
 
     return (
+        console.log('nameTouched', nameTouched),
         console.log('props AddNote', props),
         <div className="AddNote">
             <form onSubmit={handleSubmit}>
@@ -101,6 +136,7 @@ const AddNote = (props) => {
                 <label className="note-label" htmlFor="note-name">Note name</label>
                 <input type="text" id="note-name"
                     onChange={updateName} />
+                <ValidationError message={validateName()} />
 
                 <label className="note-label" htmlFor="note-content">Note content</label>
                 <textarea
@@ -108,6 +144,8 @@ const AddNote = (props) => {
                     onChange={updateContent}
                     rows={10}
                     cols={25}></textarea>
+                                    <ValidationError message={validateContent()} />
+
                 <button type="submit"  >Add</button>
             </form>
         </div>

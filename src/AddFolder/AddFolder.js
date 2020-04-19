@@ -5,16 +5,32 @@ import { v4 as uuid4 } from 'uuid'
 import { setMinutes } from 'date-fns';
 import config from '../config';
 import ApiContext from '../ApiContext';
+import ValidationError from '../ValidationError/ValidationError'
 
 const AddFolder = (props) => {
     const context = useContext(ApiContext)
     console.log('context from AddFolder', context)
     console.log('config.API_ENDPOINT', config.API_ENDPOINT)
-    const [folder, setFolder] = useState()
+    const [folder, setFolder] = useState('')
+    const [touched, setTouched] = useState(false)
+
+    const updateTouched = () => {
+            if (!touched) {
+                return setTouched(true)
+            }
+        }
+
+    const validateFolderName = () => {
+        const folderName = folder.trim()
+        if (folderName.length === 0) {
+            return '*name is required'
+        }
+    }
 
     const updateName = (e) => {
         setFolder(e.target.value)
         console.log('folder from updateName', folder)
+        updateTouched()
     }
 
     const handleSubmit = (e) => {
@@ -34,23 +50,34 @@ const AddFolder = (props) => {
                 name: folder
             })
         })
+            .then(res => {
+                if (!res.ok)
+                    return res.json().then(e => Promise.reject(e));
+                return res.json();
+            })
             .then(
                 handleFinishedFetch(),
                 props.routeProps.history.push('/'),
             )
+            .catch(error => console.log(error))
     }
     const handleFinishedFetch = () => {
         console.log('props', props)
         return props.fetchUpdates
     }
     return (
+        console.log('touched', touched),
         console.log('props AddFolder', props),
         <div className="AddFolder">
             <form onSubmit={handleSubmit}>
                 <label className="folder-label" htmlFor="folder-name">Folder name</label>
                 <input type="text" id="folder-name"
                     onChange={updateName} />
-                <button type="submit" >Add</button>
+                    <ValidationError message={validateFolderName()}/>
+                <button 
+                type="submit" 
+                disabled={!touched}
+                >Add</button>
             </form>
         </div>
     );
