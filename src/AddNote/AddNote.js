@@ -6,6 +6,7 @@ import { setMinutes } from 'date-fns';
 import config from '../config';
 import ApiContext from '../ApiContext';
 import ValidationError from '../ValidationError/ValidationError'
+import PropTypes from 'prop-types'
 
 
 const AddNote = (props) => {
@@ -153,3 +154,7 @@ const AddNote = (props) => {
 }
 
 export default AddNote;
+
+AddNote.propTypes = {
+    fetchUpdates: PropTypes.func
+}

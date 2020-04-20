@@ -1,11 +1,13 @@
-import React, { useState,useContext } from 'react'
+import React, { useState, useContext } from 'react'
 import { NavLink, Link } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import CircleButton from '../CircleButton/CircleButton'
 import ApiContext from '../ApiContext'
 import { countNotesForFolder } from '../notes-helpers'
-import './NoteListNav.css'
+import './NoteListNavHook.css'
 import config from '../config';
+import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
+import PropTypes from 'prop-types'
 
 
 export default function NoteListNavHook(props) {
@@ -13,8 +15,8 @@ export default function NoteListNavHook(props) {
   const context = useContext(ApiContext)
   console.log('context', context)
 
-  function handleClickDelete (folderId) {
-    
+  function handleClickDelete(folderId) {
+
     // console.log('e.target', e.target)
     // const folderId = context.folders
     // console.log('folderId', folderId)
@@ -43,36 +45,45 @@ export default function NoteListNavHook(props) {
       .catch(error => {
         console.error({ error })
       })
-  }  
+  }
+
+  // const errorThrower = (name) => {
+  //   if (name === 'Super') {
+  //     throw new Error('cant be Important')
+  //   }
+  //   console.log('errorThrower ran')
+  // }
 
   return (
     <div className='NoteListNav'>
       <ul className='NoteListNav__list'>
         {state.folders.map(folder => (
-          // console.log('folder.name', folder.name),
-          <li key={folder.id}>
-            <NavLink
-              className='NoteListNav__folder-link'
-              to={`/folder/${folder.id}`}
-            >
-              <span className='NoteListNav__num-notes'>
-                {countNotesForFolder(state.notes, folder.id)}
-              </span>
-              {folder.name}
-            </NavLink>
-            <button
-              className='Folder__delete'
-              type='button'
-              // onClick={handleClickDelete}
-              onClick={()=>handleClickDelete(folder.id)}
+          // errorThrower(folder.name),
+            <li key={folder.id}>
+
+              <NavLink
+                className='NoteListNav__folder-link'
+                to={`/folder/${folder.id}`}
               >
-              <FontAwesomeIcon icon='trash-alt' />
+                <span className='NoteListNav__num-notes'>
+                  {countNotesForFolder(state.notes, folder.id)}
+                </span>
 
-            </button>
+                {folder.name}
+              </NavLink>
+              <button
+                className='Folder__delete'
+                type='button'
+                onClick={() => handleClickDelete(folder.id)}
+              >
+                <FontAwesomeIcon icon='trash-alt' />
 
-          </li>
+              </button>
+            </li>
+
         ))}
       </ul>
+
       <div className='NoteListNav__button-wrapper'>
         <CircleButton
           tag={Link}
@@ -87,4 +98,8 @@ export default function NoteListNavHook(props) {
       </div>
     </div>
   )
+}
+
+NoteListNavHook.propTypes = {
+  handleDeleteFolder: PropTypes.func
 }

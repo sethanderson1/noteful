@@ -6,6 +6,7 @@ import CircleButton from '../CircleButton/CircleButton'
 import ApiContext from '../ApiContext'
 import { getNotesForFolder } from '../notes-helpers'
 import './NoteListMain.css'
+import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 
 export default class NoteListMain extends React.Component {
   static defaultProps = {
@@ -17,32 +18,40 @@ export default class NoteListMain extends React.Component {
 
   render() {
     const { folderId } = this.props.match.params
-    const { notes=[] } = this.context
+    const { notes = [] } = this.context
     const notesForFolder = getNotesForFolder(notes, folderId)
+    console.log('this.context.folder.length', this.context.folders.length)
+    const circleButton = this.context.folders.length > 0 
+    ?  <CircleButton
+    tag={Link}
+    to='/add-note'
+    type='button'
+    className='NoteListMain__add-note-button'
+  >
+    <FontAwesomeIcon icon='plus' />
+    <br />
+    Note
+  </CircleButton>
+  : null;
+
     return (
       <section className='NoteListMain'>
         <ul>
           {notesForFolder.map(note =>
             <li key={note.id}>
-              <Note
-                id={note.id}
-                name={note.name}
-                modified={note.modified}
-              />
+              <ErrorBoundary>
+                <Note
+                  id={note.id}
+                  name={note.name}
+                  modified={note.modified}
+                />
+              </ErrorBoundary>
+
             </li>
           )}
         </ul>
         <div className='NoteListMain__button-container'>
-          <CircleButton
-            tag={Link}
-            to='/add-note'
-            type='button'
-            className='NoteListMain__add-note-button'
-          >
-            <FontAwesomeIcon icon='plus' />
-            <br />
-            Note
-          </CircleButton>
+         {circleButton}
         </div>
       </section>
     )

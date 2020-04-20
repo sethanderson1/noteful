@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Route, Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-// import NoteListNav from '../NoteListNav/NoteListNav';
 import NoteListNavHook from '../NoteListNavHook/NoteListNavHook';
 import NotePageNav from '../NotePageNav/NotePageNav';
 import NoteListMain from '../NoteListMain/NoteListMain';
@@ -11,10 +10,9 @@ import AddNote from '../AddNote/AddNote';
 import ApiContext from '../ApiContext';
 import config from '../config';
 import './App.css';
-import getFolders from '../getFolders';
+import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
 
 class App extends Component {
-
     state = {
         notes: [],
         folders: []
@@ -55,29 +53,31 @@ class App extends Component {
             notes: this.state.folders.filter(folder => folder.id !== folderId)
         });
         this.fetchUpdates()
+    
     };
 
     renderNavRoutes() {
         return (
             <>
                 {['/', '/folder/:folderId'].map(path => (
+                              <ErrorBoundary>
+
                     <Route
                         exact
                         key={path}
                         path={path}
                         component={() => <NoteListNavHook
                             state={this.state}
-                            // fetchUpdates={this.fetchUpdates}
                             handleDeleteFolder={this.handleDeleteFolder}
                         />}
-                    // render wont display folders unless click back so need component
-                    // component={NoteListNav}
                     />
+                              </ErrorBoundary>
+
                 ))}
+
                 <Route path="/note/:noteId" component={NotePageNav} />
                 <Route path="/add-folder" component={NotePageNav} />
                 <Route path="/add-note" component={NotePageNav} />
-
             </>
         );
     }
@@ -86,12 +86,15 @@ class App extends Component {
         return (
             <>
                 {['/', '/folder/:folderId'].map(path => (
-                    <Route
-                        exact
-                        key={path}
-                        path={path}
-                        component={NoteListMain}
-                    />
+                    <ErrorBoundary key={path}>
+                        <Route
+                            exact
+                            key={path}
+                            path={path}
+                            component={NoteListMain}
+                        />
+                    </ErrorBoundary>
+
                 ))}
                 <Route path="/note/:noteId" component={NotePageMain} />
                 <Route path="/add-folder"

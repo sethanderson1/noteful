@@ -14,7 +14,6 @@ export default class NotePageNav extends React.Component {
       params: {}
     }
   }
-  // *********why have to make shape?
   static contextType = ApiContext;
 
   render() {
@@ -22,18 +21,15 @@ export default class NotePageNav extends React.Component {
     const { noteId } = this.props.match.params
     const note = findNote(notes, noteId) || {}
     const folder = findFolder(folders, note.folderId)
-    console.log('this.props', this.props)
-    return ( 
+    return (
       <div className='NotePageNav'>
         <CircleButton
           tag='button'
           role='link'
           onClick={() => {
             this.props.history.goBack()
-            console.log('this.props.history', this.props.history)
             // this.props.history.push('/')
           }}
-          
           className='NotePageNav__back-button'
         >
           <FontAwesomeIcon icon='chevron-left' />
