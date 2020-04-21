@@ -1,8 +1,6 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext } from 'react';
 import './AddNote.css'
-import { NavLink } from 'react-router-dom'
 import { v4 as uuid4 } from 'uuid'
-import { setMinutes } from 'date-fns';
 import config from '../config';
 import ApiContext from '../ApiContext';
 import ValidationError from '../ValidationError/ValidationError'
@@ -145,9 +143,13 @@ const AddNote = (props) => {
                     onChange={updateContent}
                     rows={10}
                     cols={25}></textarea>
-                                    <ValidationError message={validateContent()} />
+                <ValidationError message={validateContent()} />
 
-                <button type="submit"  >Add</button>
+                <button
+                    type="submit"
+                    disabled={note.length === 0 || noteContent === 0}
+                >
+                    Add</button>
             </form>
         </div>
     );

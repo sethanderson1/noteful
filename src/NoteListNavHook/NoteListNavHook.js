@@ -6,7 +6,6 @@ import ApiContext from '../ApiContext'
 import { countNotesForFolder } from '../notes-helpers'
 import './NoteListNavHook.css'
 import config from '../config';
-import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
 import PropTypes from 'prop-types'
 
 

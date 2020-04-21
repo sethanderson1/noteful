@@ -1,8 +1,6 @@
 import React, { useState, useContext } from 'react';
 import './AddFolder.css'
-import { NavLink } from 'react-router-dom'
 import { v4 as uuid4 } from 'uuid'
-import { setMinutes } from 'date-fns';
 import config from '../config';
 import ApiContext from '../ApiContext';
 import ValidationError from '../ValidationError/ValidationError'
@@ -69,6 +67,8 @@ const AddFolder = (props) => {
     return (
         console.log('touched', touched),
         console.log('props AddFolder', props),
+        console.log('folder', folder),
+        console.log('!touched && folder.length > 0', !touched && folder.length > 0),
         <div className="AddFolder">
             <form onSubmit={handleSubmit}>
                 <label className="folder-label" htmlFor="folder-name">Folder name</label>
@@ -77,7 +77,8 @@ const AddFolder = (props) => {
                     <ValidationError message={validateFolderName()}/>
                 <button 
                 type="submit" 
-                disabled={!touched}
+                disabled={!touched || folder.length === 0}
+                
                 >Add</button>
             </form>
         </div>

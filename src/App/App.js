@@ -53,25 +53,24 @@ class App extends Component {
             notes: this.state.folders.filter(folder => folder.id !== folderId)
         });
         this.fetchUpdates()
-    
+
     };
 
     renderNavRoutes() {
         return (
             <>
                 {['/', '/folder/:folderId'].map(path => (
-                              <ErrorBoundary>
-
-                    <Route
-                        exact
-                        key={path}
-                        path={path}
-                        component={() => <NoteListNavHook
-                            state={this.state}
-                            handleDeleteFolder={this.handleDeleteFolder}
-                        />}
-                    />
-                              </ErrorBoundary>
+                    <ErrorBoundary key={path}>
+                        <Route
+                            exact
+                            key={path}
+                            path={path}
+                            component={() => <NoteListNavHook
+                                state={this.state}
+                                handleDeleteFolder={this.handleDeleteFolder}
+                            />}
+                        />
+                    </ErrorBoundary>
 
                 ))}
 
