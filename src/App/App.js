@@ -53,7 +53,6 @@ class App extends Component {
             notes: this.state.folders.filter(folder => folder.id !== folderId)
         });
         this.fetchUpdates()
-
     };
 
     renderNavRoutes() {
@@ -98,18 +97,14 @@ class App extends Component {
                 <Route path="/note/:noteId" component={NotePageMain} />
                 <Route path="/add-folder"
                     component={(routeProps) => <AddFolder
-                        // handleAddFolder={this.handleAddFolder}
                         fetchUpdates={this.fetchUpdates}
                         state={this.state}
                         routeProps={routeProps} />} />
                 <Route path="/add-note"
                     component={(routeProps) => <AddNote
-                        // handleAddNote={this.handleAddNote}
                         fetchUpdates={this.fetchUpdates}
                         state={this.state}
                         routeProps={routeProps} />} />
-                {/* <Route path="/add-folder" component={() => <AddFolder state={this.state} />}/> */}
-                {/* <Route path="/add-folder" component={AddFolder}/> */}
             </>
         );
     }

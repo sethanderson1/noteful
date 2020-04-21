@@ -8,20 +8,12 @@ import './NoteListNavHook.css'
 import config from '../config';
 import PropTypes from 'prop-types'
 
-
 export default function NoteListNavHook(props) {
   const [state, setState] = useState(props.state)
   const context = useContext(ApiContext)
   console.log('context', context)
 
   function handleClickDelete(folderId) {
-
-    // console.log('e.target', e.target)
-    // const folderId = context.folders
-    // console.log('folderId', folderId)
-    console.log('props.id', props)
-    console.log('handleClickDelete clicked')
-
     fetch(`${config.API_ENDPOINT}/folders/${folderId}`, {
       method: 'DELETE',
       headers: {
@@ -34,12 +26,7 @@ export default function NoteListNavHook(props) {
         return res.json()
       })
       .then(() => {
-
-        // context.deleteFolder(folderId)
-        console.log('folderId', folderId)
         props.handleDeleteFolder(folderId)
-
-        // make sure history push back to home
       })
       .catch(error => {
         console.error({ error })

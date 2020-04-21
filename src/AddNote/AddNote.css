@@ -14,7 +14,13 @@ input,label {
 
 input,textarea,#select-folder {
     margin-left:1rem;
-    
-
 }
 
+.AddNote__add-note-button {
+    margin-left: 120px;
+    margin-top: 12px; 
+}
+
+.AddNote__add-note-button:hover:enabled {
+    background-color: #29862e;
+}

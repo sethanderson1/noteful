@@ -9,21 +9,14 @@ import PropTypes from 'prop-types'
 
 const AddNote = (props) => {
     const context = useContext(ApiContext)
-    // console.log('context from AddNote', context)
     const [note, setNote] = useState('')
     const [noteContent, setNoteContent] = useState('')
     const [folder, setFolder] = useState(context.folders[0] || {})
     const [nameTouched, setNameTouched] = useState(false)
     const [contentTouched, setContentTouched] = useState(false)
-    // console.log('context.folders[1]', context.folders[1])
-    // const [folder, setFolder] = useState(context.folders[0] || {id:'',name:''}) 
-    // actually, if there are no folders, they should not have option to create note
-
 
     const updateFolder = (e) => {
         setFolder(e.target.value)
-        console.log('e.target.value from updateFolder', e.target.value)
-        console.log('folder from updateFolder', folder)
     }
 
     const updateName = (e) => {
@@ -54,10 +47,6 @@ const AddNote = (props) => {
                 modified: new Date().toISOString(),
                 content: noteContent,
                 folderId: folder.id || folder,
-                // needed to add this because folder becomes 
-                // folder.id once user selects an option from dropdown
-                // for some unkown reason. sloppy fix until i figure out
-
             })
         })
             .then(res => {
@@ -118,8 +107,6 @@ const AddNote = (props) => {
     }
 
     return (
-        console.log('nameTouched', nameTouched),
-        console.log('props AddNote', props),
         <div className="AddNote">
             <form onSubmit={handleSubmit}>
                 <label className="select-folder-label" htmlFor="select-folder" >Select Folder</label>
@@ -127,10 +114,7 @@ const AddNote = (props) => {
                     value={folder.id}
                     {...console.log('folder.id', folder.id)}
                     onChange={updateFolder}>
-
                     {renderFolders()}
-                    {console.log('folder', folder)}
-
                 </select>
                 <label className="note-label" htmlFor="note-name">Note name</label>
                 <input type="text" id="note-name"
@@ -146,8 +130,9 @@ const AddNote = (props) => {
                 <ValidationError message={validateContent()} />
 
                 <button
+                    className='NavCircleButton AddNote__add-note-button'
                     type="submit"
-                    disabled={note.length === 0 || noteContent === 0}
+                    disabled={note.length === 0 || noteContent.length === 0}
                 >
                     Add</button>
             </form>

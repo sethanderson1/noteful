@@ -1,9 +1,17 @@
 .AddFolder {
-    color:#fff;
+  color: #fff;
+}
+
+.AddFolder__add-folder-button {
+    margin-left: 120px;
+    margin-top: 12px;
+}
+.AddFolder__add-folder-button:hover:enabled {
+  background-color: #29862e;
 }
 
 .folder-label {
-    padding-left: 1rem;
-    padding-bottom: 0.2rem;
-    padding-top: 0.7rem;
+  padding-left: 1rem;
+  padding-bottom: 0.2rem;
+  padding-top: 0.7rem;
 }

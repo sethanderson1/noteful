@@ -14,10 +14,10 @@ const AddFolder = (props) => {
     const [touched, setTouched] = useState(false)
 
     const updateTouched = () => {
-            if (!touched) {
-                return setTouched(true)
-            }
+        if (!touched) {
+            return setTouched(true)
         }
+    }
 
     const validateFolderName = () => {
         const folderName = folder.trim()
@@ -74,11 +74,15 @@ const AddFolder = (props) => {
                 <label className="folder-label" htmlFor="folder-name">Folder name</label>
                 <input type="text" id="folder-name"
                     onChange={updateName} />
-                    <ValidationError message={validateFolderName()}/>
-                <button 
-                type="submit" 
-                disabled={!touched || folder.length === 0}
-                
+                <ValidationError
+                    message={validateFolderName()}
+                    className="validation-error"
+                />
+                <button
+                    className='NavCircleButton AddFolder__add-folder-button'
+                    type="submit"
+                    disabled={folder.length === 0}
+
                 >Add</button>
             </form>
         </div>
