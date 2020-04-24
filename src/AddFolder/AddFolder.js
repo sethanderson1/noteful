@@ -79,10 +79,12 @@ const AddFolder = (props) => {
                     className="validation-error"
                 />
                 <button
+
                     className='NavCircleButton AddFolder__add-folder-button'
                     type="submit"
                     disabled={folder.length === 0}
-
+                    aria-label="Add Folder"
+                    
                 >Add</button>
             </form>
         </div>

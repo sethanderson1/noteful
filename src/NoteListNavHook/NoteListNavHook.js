@@ -61,6 +61,7 @@ export default function NoteListNavHook(props) {
                 className='Folder__delete'
                 type='button'
                 onClick={() => handleClickDelete(folder.id)}
+                aria-label="delete folder"
               >
                 <FontAwesomeIcon icon='trash-alt' />
 
