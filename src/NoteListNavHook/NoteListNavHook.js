@@ -11,7 +11,7 @@ import PropTypes from 'prop-types'
 export default function NoteListNavHook(props) {
   const [state, setState] = useState(props.state)
   const context = useContext(ApiContext)
-  console.log('context', context)
+  // console.log('context', context)
 
   function handleClickDelete(folderId) {
     fetch(`${config.API_ENDPOINT}/folders/${folderId}`, {
@@ -80,7 +80,7 @@ export default function NoteListNavHook(props) {
         >
           <FontAwesomeIcon icon='plus' />
           <br />
-            Folder
+            Folder  
           </CircleButton>
       </div>
     </div>

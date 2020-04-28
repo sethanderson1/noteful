@@ -15,11 +15,17 @@ import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
 class App extends Component {
     state = {
         notes: [],
-        folders: []
+        folders: [],
+        test:0
     };
 
     componentDidMount() {
+        console.log('componentDidMount ran')
+
         this.fetchUpdates()
+    }
+    newTime() {
+        return new Date()
     }
 
     fetchUpdates = () => {
@@ -36,6 +42,8 @@ class App extends Component {
             })
             .then(([notes, folders]) => {
                 this.setState({ notes, folders });
+                this.setState({test:this.newTime()})
+                console.log('this.state.test', this.state.test)
             })
             .catch(error => {
                 console.error({ error });
@@ -116,7 +124,7 @@ class App extends Component {
             deleteNote: this.handleDeleteNote,
             deleteFolder: this.handleDeleteFolder,
         };
-        console.log('folders', this.state.folders)
+        // console.log('folders', this.state.folders)
         return (
             <ApiContext.Provider value={value}>
                 <div className="App">
