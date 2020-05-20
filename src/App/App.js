@@ -21,7 +21,6 @@ class App extends Component {
 
     componentDidMount() {
         console.log('componentDidMount ran')
-
         this.fetchUpdates()
     }
     newTime() {
@@ -30,8 +29,8 @@ class App extends Component {
 
     fetchUpdates = () => {
         Promise.all([
-            fetch(`${config.API_ENDPOINT}/notes`),
-            fetch(`${config.API_ENDPOINT}/folders`)
+            fetch(`${config.API_ENDPOINT}/api/notes`),
+            fetch(`${config.API_ENDPOINT}/api/folders`)
         ])
             .then(([notesRes, foldersRes]) => {
                 if (!notesRes.ok)
@@ -42,8 +41,8 @@ class App extends Component {
             })
             .then(([notes, folders]) => {
                 this.setState({ notes, folders });
-                this.setState({test:this.newTime()})
-                console.log('this.state.test', this.state.test)
+                console.log('this.state', this.state)         
+                // console.log('this.state.test', this.state.test)
             })
             .catch(error => {
                 console.error({ error });
@@ -118,6 +117,8 @@ class App extends Component {
     }
 
     render() {
+        // this.fetchUpdates()
+
         const value = {
             notes: this.state.notes,
             folders: this.state.folders,

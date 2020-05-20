@@ -19,7 +19,10 @@ export default class NoteListMain extends React.Component {
   render() {
     const { folderId } = this.props.match.params
     const { notes = [] } = this.context
+    console.log('notes', notes)
     const notesForFolder = getNotesForFolder(notes, folderId)
+    console.log('folderId', folderId)
+    console.log('notesForFolder', notesForFolder)
     // console.log('this.context.folder.length', this.context.folders.length)
     const circleButton = this.context.folders.length > 0 
     ?  <CircleButton
@@ -41,9 +44,9 @@ export default class NoteListMain extends React.Component {
             <li key={note.id}>
               <ErrorBoundary>
                 <Note
-                  id={note.id}
-                  name={note.name}
-                  modified={note.modified}
+                  id={String(note.id)}
+                  title={note.title}
+                  date_modified={note.date_modified}
                 />
               </ErrorBoundary>
 

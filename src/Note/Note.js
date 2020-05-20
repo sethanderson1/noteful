@@ -38,7 +38,7 @@ export default class Note extends React.Component {
   }
 
   render() {
-    const { name, id, modified } = this.props
+    const { title, id, date_modified } = this.props
     // if (name === 'asdf') {
     //   throw new Error('cant be asdf')
     // }
@@ -46,7 +46,7 @@ export default class Note extends React.Component {
       <div className='Note'>
         <h2 className='Note__title'>
           <Link to={`/note/${id}`}>
-            {name}
+            {title}
           </Link>
         </h2>
         <button
@@ -63,7 +63,7 @@ export default class Note extends React.Component {
             Modified
             {' '}
             <span className='Date'>
-              {format(modified, 'Do MMM YYYY')}
+              {format(date_modified, 'Do MMM YYYY')}
             </span>
           </div>
         </div>
@@ -74,6 +74,6 @@ export default class Note extends React.Component {
 
 Note.propTypes = {
   id: PropTypes.string,
-  name: PropTypes.string,
-  modified: PropTypes.string,
+  title: PropTypes.string,
+  date_modified: PropTypes.string,
 }

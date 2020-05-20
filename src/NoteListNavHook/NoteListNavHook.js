@@ -44,29 +44,29 @@ export default function NoteListNavHook(props) {
     <div className='NoteListNav'>
       <ul className='NoteListNav__list'>
         {state.folders.map(folder => (
-          // errorThrower(folder.name),
-            <li key={folder.id}>
+          <li key={folder.id}>
 
-              <NavLink
-                className='NoteListNav__folder-link'
-                to={`/folder/${folder.id}`}
-              >
-                <span className='NoteListNav__num-notes'>
-                  {countNotesForFolder(state.notes, folder.id)}
-                </span>
+            <NavLink
+              className='NoteListNav__folder-link'
+              to={`/folder/${folder.id}`}
+            >
+              <span className='NoteListNav__num-notes'>
+                {countNotesForFolder(state.notes, folder.id)}
+                {/* {console.log('state.notes', state.notes)} */}
+              </span>
 
-                {folder.name}
-              </NavLink>
-              <button
-                className='Folder__delete'
-                type='button'
-                onClick={() => handleClickDelete(folder.id)}
-                aria-label="delete folder"
-              >
-                <FontAwesomeIcon icon='trash-alt' />
+              {folder.folder_name}
+            </NavLink>
+            <button
+              className='Folder__delete'
+              type='button'
+              onClick={() => handleClickDelete(folder.id)}
+              aria-label="delete folder"
+            >
+              <FontAwesomeIcon icon='trash-alt' />
 
-              </button>
-            </li>
+            </button>
+          </li>
 
         ))}
       </ul>
@@ -80,7 +80,7 @@ export default function NoteListNavHook(props) {
         >
           <FontAwesomeIcon icon='plus' />
           <br />
-            Folder  
+            Folder
           </CircleButton>
       </div>
     </div>

@@ -39,14 +39,14 @@ const AddFolder = (props) => {
     }
 
     const postFolder = () => {
-        fetch(`${config.API_ENDPOINT}/folders`, {
+        fetch(`${config.API_ENDPOINT}/api/folders`, {
             method: 'post',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
                 id: uuid4(),
-                name: folder
+                folder_name: folder
             })
         })
             .then(res => {

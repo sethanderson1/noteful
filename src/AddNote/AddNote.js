@@ -36,17 +36,17 @@ const AddNote = (props) => {
 
     const postNote = () => {
         console.log('folder in postNote', folder.id)
-        fetch(`${config.API_ENDPOINT}/notes`, {
+        fetch(`${config.API_ENDPOINT}/api/notes`, {
             method: 'post',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
                 id: uuid4(),
-                name: note,
-                modified: new Date().toISOString(),
+                title: note,
+                date_modified: new Date().toISOString(),
                 content: noteContent,
-                folderId: folder.id || folder,
+                folder_id: folder.id || folder,
             })
         })
             .then(res => {
@@ -75,7 +75,7 @@ const AddNote = (props) => {
                 <option
                     key={fldr.id}
                     id={fldr.id}
-                    value={fldr.id} >{fldr.name}</option>
+                    value={fldr.id} >{fldr.folder_name}</option>
             )
         )
     }
