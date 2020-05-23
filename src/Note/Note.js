@@ -8,33 +8,56 @@ import PropTypes from 'prop-types'
 import './Note.css'
 
 export default class Note extends React.Component {
+  constructor(props) {
+    super(props)
+    this.titleWasClicked = this.titleWasClicked.bind(this)
+  }
   static defaultProps = {
     onDeleteNote: () => { },
   }
   static contextType = ApiContext;
 
-  handleClickDelete = e => {
-    e.preventDefault()
-    const noteId = this.props.id
 
-    fetch(`${config.API_ENDPOINT}/notes/${noteId}`, {
-      method: 'DELETE',
-      headers: {
-        'content-type': 'application/json'
-      },
-    })
-      .then(res => {
-        if (!res.ok)
-          return res.json().then(e => Promise.reject(e))
-        return res.json()
-      })
-      .then(() => {
-        this.context.deleteNote(noteId)
-        this.props.onDeleteNote(noteId)
-      })
-      .catch(error => {
-        console.error({ error })
-      })
+  // handleClickDelete = e => {
+  //   e.preventDefault()
+  //   const noteId = this.props.id
+  //   console.log('this.props.id', this.props.id)
+
+  //   fetch(`${config.API_ENDPOINT}/api/notes/${noteId}`, {
+  //     method: 'DELETE',
+  //     headers: {
+  //       'content-type': 'application/json'
+  //     },
+  //   })
+  //     .then(res => {
+  //       if (!res.ok) {
+  //         return res.json().then(error => Promise.reject(error))
+  //       }
+  //       console.log('`${config.API_ENDPOINT}/api/notes/${noteId}`', `${config.API_ENDPOINT}/api/notes/${noteId}`)
+
+  //     })
+  //     .then(() => {
+  //       // this.context.deleteNote(noteId)
+  //       console.log('this.context.deleteNote(noteId)', this.context.deleteNote(noteId))
+  //       this.props.onDeleteNote(noteId)
+  //       console.log('this.props.onDeleteNote(noteId)', this.props.onDeleteNote(noteId))
+  //       console.log('this.props', this.props)
+  //     })
+  //     .catch(error => {
+  //       console.error({ error })
+  //     })
+  // }
+
+  doSomething = () => {
+    console.log('doSeomthing ran')
+    console.log('this.props', this.props)
+  }
+
+  titleWasClicked = (e) => {
+    e.preventDefault()
+    console.log('Click happened');
+    const { dataCallback } = this.props
+    dataCallback('hello')
   }
 
   render() {
@@ -52,7 +75,9 @@ export default class Note extends React.Component {
         <button
           className='Note__delete'
           type='button'
-          onClick={this.handleClickDelete}
+          // onClick={this.handleClickDelete}
+          onClick={this.titleWasClicked}
+
         >
           <FontAwesomeIcon icon='trash-alt' />
           {' '}

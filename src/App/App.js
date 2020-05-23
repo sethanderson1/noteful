@@ -20,7 +20,7 @@ class App extends Component {
     };
 
     componentDidMount() {
-        console.log('componentDidMount ran')
+        // console.log('componentDidMount ran')
         this.fetchUpdates()
     }
     newTime() {
@@ -50,17 +50,19 @@ class App extends Component {
     }
 
     handleDeleteNote = noteId => {
+        const newNotes = this.state.notes.filter(note => note.id !== noteId)
         this.setState({
-            notes: this.state.notes.filter(note => note.id !== noteId)
+            notes: newNotes
         });
     };
 
     handleDeleteFolder = folderId => {
+        const newFolders = this.state.folders.filter(folder => folder.id !== folderId)
         this.setState({
-            notes: this.state.folders.filter(folder => folder.id !== folderId)
+            folders: newFolders
         });
-        this.fetchUpdates()
     };
+    
 
     renderNavRoutes() {
         return (

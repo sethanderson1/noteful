@@ -14,19 +14,20 @@ export default function NoteListNavHook(props) {
   // console.log('context', context)
 
   function handleClickDelete(folderId) {
-    fetch(`${config.API_ENDPOINT}/folders/${folderId}`, {
+    fetch(`${config.API_ENDPOINT}/api/folders/${folderId}`, {
       method: 'DELETE',
       headers: {
         'content-type': 'application/json'
       },
     })
       .then(res => {
-        if (!res.ok)
-          return res.json().then(e => Promise.reject(e))
-        return res.json()
+        if (!res.ok) {
+          return res.json().then(error => Promise.reject(error))
+        }
       })
       .then(() => {
         props.handleDeleteFolder(folderId)
+        // console.log('folderId', folderId)
       })
       .catch(error => {
         console.error({ error })
