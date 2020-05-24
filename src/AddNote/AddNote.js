@@ -35,7 +35,6 @@ const AddNote = (props) => {
     }
 
     const postNote = () => {
-        console.log('folder in postNote', folder.id)
         fetch(`${config.API_ENDPOINT}/api/notes`, {
             method: 'post',
             headers: {
@@ -63,7 +62,6 @@ const AddNote = (props) => {
             });
     }
     const handleFinishedFetch = () => {
-        console.log('props', props)
         return props.fetchUpdates
     }
 
@@ -112,7 +110,6 @@ const AddNote = (props) => {
                 <label className="select-folder-label" htmlFor="select-folder" >Select Folder</label>
                 <select id="select-folder"
                     value={folder.id}
-                    {...console.log('folder.id', folder.id)}
                     onChange={updateFolder}>
                     {renderFolders()}
                 </select>

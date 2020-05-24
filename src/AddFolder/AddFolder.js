@@ -8,8 +8,6 @@ import PropTypes from 'prop-types'
 
 const AddFolder = (props) => {
     const context = useContext(ApiContext)
-    // console.log('context from AddFolder', context)
-    // console.log('config.API_ENDPOINT', config.API_ENDPOINT)
     const [folder, setFolder] = useState('')
     const [touched, setTouched] = useState(false)
 
@@ -28,13 +26,11 @@ const AddFolder = (props) => {
 
     const updateName = (e) => {
         setFolder(e.target.value)
-        // console.log('folder from updateName', folder)
         updateTouched()
     }
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        // console.log('folder from handleSubmit', folder)
         postFolder();
     }
 
@@ -61,14 +57,9 @@ const AddFolder = (props) => {
             .catch(error => console.log(error))
     }
     const handleFinishedFetch = () => {
-        // console.log('props', props)
         return props.fetchUpdates
     }
     return (
-        // console.log('touched', touched),
-        // console.log('props AddFolder', props),
-        // console.log('folder', folder),
-        // console.log('!touched && folder.length > 0', !touched && folder.length > 0),
         <div className="AddFolder">
             <form onSubmit={handleSubmit}>
                 <label className="folder-label" htmlFor="folder-name">Folder name</label>

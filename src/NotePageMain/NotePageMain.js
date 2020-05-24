@@ -13,29 +13,14 @@ export default class NotePageMain extends React.Component {
   static contextType = ApiContext
 
   handleDeleteNote = () => {
-
     const {noteId} = this.props.match.params
-    console.log('this.props', this.props)
-    console.log('noteId', noteId)
-    // console.log('handleDeleteNote ran')
     this.context.deleteNote(noteId)
-    console.log('this.props.history', this.props.history)
-    // console.log('this.context', this.context)
-    // this.props.history.push(`/`)  
-
-    
   }
 
   render() {
     const { notes = [] } = this.context
-    console.log('notes', notes)
-    console.log('this.context', this.context)
     const { noteId } = this.props.match.params
-    console.log('this.props', this.props)
-    console.log('noteId', noteId)
     const note = findNote(notes, noteId) || { content: '' }
-    console.log('note', note)
-    console.log('notepagemain rendered')
     return (
       <section className='NotePageMain'>
         <Note

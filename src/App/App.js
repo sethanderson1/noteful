@@ -20,7 +20,6 @@ class App extends Component {
     };
 
     componentDidMount() {
-        // console.log('componentDidMount ran')
         this.fetchUpdates()
     }
     newTime() {
@@ -41,7 +40,6 @@ class App extends Component {
             })
             .then(([notes, folders]) => {
                 this.setState({ notes, folders });
-                console.log('this.state', this.state)
             })
             .catch(error => {
                 console.error({ error });
@@ -122,15 +120,12 @@ class App extends Component {
     }
 
     render() {
-        // this.fetchUpdates()
-
         const value = {
             notes: this.state.notes,
             folders: this.state.folders,
             deleteNote: this.handleDeleteNote,
             deleteFolder: this.handleDeleteFolder,
         };
-        // console.log('folders', this.state.folders)
         return (
             <ApiContext.Provider value={value}>
                 <div className="App">

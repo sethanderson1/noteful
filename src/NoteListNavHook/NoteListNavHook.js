@@ -12,7 +12,6 @@ import { withRouter } from 'react-router';
 function NoteListNavHook(props) {
   const [state, setState] = useState(props.state)
   const context = useContext(ApiContext)
-  // console.log('context', context)
 
   function handleClickDelete(folderId) {
     fetch(`${config.API_ENDPOINT}/api/folders/${folderId}`, {
@@ -28,8 +27,6 @@ function NoteListNavHook(props) {
       })
       .then(() => {
         props.handleDeleteFolder(folderId)
-        // console.log('folderId', folderId)
-        console.log('props', props)
         props.fetchUpdates()
         props.history.push('/')
         
@@ -38,13 +35,6 @@ function NoteListNavHook(props) {
         console.error({ error })
       })
   }
-
-  // const errorThrower = (name) => {
-  //   if (name === 'Super') {
-  //     throw new Error('cant be Important')
-  //   }
-  //   console.log('errorThrower ran')
-  // }
 
   return (
     <div className='NoteListNav'>

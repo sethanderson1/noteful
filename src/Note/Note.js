@@ -21,8 +21,6 @@ export default class Note extends React.Component {
   handleClickDelete = e => {
     e.preventDefault()
     const noteId = this.props.id
-    console.log('this.props.id', this.props.id)
-
     fetch(`${config.API_ENDPOINT}/api/notes/${noteId}`, {
       method: 'DELETE',
       headers: {
@@ -33,19 +31,9 @@ export default class Note extends React.Component {
         if (!res.ok) {
           return res.json().then(error => Promise.reject(error))
         }
-        console.log('`${config.API_ENDPOINT}/api/notes/${noteId}`', `${config.API_ENDPOINT}/api/notes/${noteId}`)
-
       })
       .then(() => {
-        // this.context.deleteNote(noteId)
-        // console.log('this.context.deleteNote(noteId)', this.context.deleteNote(noteId))
-        // this.props.onDeleteNote(noteId)
-        // console.log('this.props.onDeleteNote(noteId)', this.props.onDeleteNote(noteId))
-        // console.log('this.props', this.props)
-        console.log('handleClickDelete ran')
-        // this.props.onDeleteNote()
         this.context.deleteNote(noteId)
-        console.log('this.props', this.props)
         this.props.history.push('/')
       })
       .catch(error => {
@@ -55,9 +43,6 @@ export default class Note extends React.Component {
 
   render() {
     const { title, id, date_modified } = this.props
-    // if (name === 'asdf') {
-    //   throw new Error('cant be asdf')
-    // }
     return (
       <div className='Note'>
         <h2 className='Note__title'>
