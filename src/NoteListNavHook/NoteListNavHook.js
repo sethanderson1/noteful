@@ -7,8 +7,9 @@ import { countNotesForFolder } from '../notes-helpers'
 import './NoteListNavHook.css'
 import config from '../config';
 import PropTypes from 'prop-types'
+import { withRouter } from 'react-router';
 
-export default function NoteListNavHook(props) {
+function NoteListNavHook(props) {
   const [state, setState] = useState(props.state)
   const context = useContext(ApiContext)
   // console.log('context', context)
@@ -28,6 +29,10 @@ export default function NoteListNavHook(props) {
       .then(() => {
         props.handleDeleteFolder(folderId)
         // console.log('folderId', folderId)
+        console.log('props', props)
+        props.fetchUpdates()
+        props.history.push('/')
+        
       })
       .catch(error => {
         console.error({ error })
@@ -53,7 +58,6 @@ export default function NoteListNavHook(props) {
             >
               <span className='NoteListNav__num-notes'>
                 {countNotesForFolder(state.notes, folder.id)}
-                {/* {console.log('state.notes', state.notes)} */}
               </span>
 
               {folder.folder_name}
@@ -91,3 +95,5 @@ export default function NoteListNavHook(props) {
 NoteListNavHook.propTypes = {
   handleDeleteFolder: PropTypes.func
 }
+
+export default withRouter(NoteListNavHook)

@@ -16,7 +16,7 @@ class App extends Component {
     state = {
         notes: [],
         folders: [],
-        test:0
+        test: 0
     };
 
     componentDidMount() {
@@ -41,8 +41,7 @@ class App extends Component {
             })
             .then(([notes, folders]) => {
                 this.setState({ notes, folders });
-                console.log('this.state', this.state)         
-                // console.log('this.state.test', this.state.test)
+                console.log('this.state', this.state)
             })
             .catch(error => {
                 console.error({ error });
@@ -50,10 +49,13 @@ class App extends Component {
     }
 
     handleDeleteNote = noteId => {
-        const newNotes = this.state.notes.filter(note => note.id !== noteId)
+        const newNotes = this.state.notes.filter(note => {
+            return +note.id !== +noteId
+        })
         this.setState({
             notes: newNotes
         });
+
     };
 
     handleDeleteFolder = folderId => {
@@ -62,7 +64,6 @@ class App extends Component {
             folders: newFolders
         });
     };
-    
 
     renderNavRoutes() {
         return (
@@ -75,6 +76,7 @@ class App extends Component {
                             path={path}
                             component={() => <NoteListNavHook
                                 state={this.state}
+                                fetchUpdates={this.fetchUpdates}
                                 handleDeleteFolder={this.handleDeleteFolder}
                             />}
                         />
@@ -103,7 +105,8 @@ class App extends Component {
                     </ErrorBoundary>
 
                 ))}
-                <Route path="/note/:noteId" component={NotePageMain} />
+                <Route path="/note/:noteId"
+                    component={NotePageMain} />
                 <Route path="/add-folder"
                     component={(routeProps) => <AddFolder
                         fetchUpdates={this.fetchUpdates}

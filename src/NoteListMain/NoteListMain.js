@@ -18,12 +18,13 @@ export default class NoteListMain extends React.Component {
 
   render() {
     const { folderId } = this.props.match.params
-    console.log('this.props.match.params', this.props.match.params)
+    // console.log('this.props', this.props)
+    // console.log('this.props.match.params', this.props.match.params)
     const { notes = [] } = this.context
-    console.log('notes', notes)
+    // console.log('notes', notes)
     const notesForFolder = getNotesForFolder(notes, folderId)
-    console.log('folderId', folderId)
-    console.log('notesForFolder', notesForFolder)
+    // console.log('folderId', folderId)
+    // console.log('notesForFolder', notesForFolder)
     // console.log('this.context.folder.length', this.context.folders.length)
     const circleButton = this.context.folders && this.context.folders.length > 0 
     ?  <CircleButton
