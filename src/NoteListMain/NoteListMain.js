@@ -20,20 +20,20 @@ export default class NoteListMain extends React.Component {
     const { folderId } = this.props.match.params
     const { notes = [] } = this.context
     const notesForFolder = getNotesForFolder(notes, folderId)
-    const circleButton = this.context.folders && this.context.folders.length > 0 
-    ?  <CircleButton
-    tag={Link}
-    to='/add-note'
-    type='button'
-    className='NoteListMain__add-note-button'
-  >
-    <FontAwesomeIcon icon='plus' />
-    <br />
+    const circleButton = this.context.folders && this.context.folders.length > 0
+      ? <CircleButton
+        tag={Link}
+        to='/add-note'
+        type='button'
+        className='NoteListMain__add-note-button'
+      >
+        <FontAwesomeIcon icon='plus' />
+        <br />
     Note
   </CircleButton>
-  : null;
+      : null;
 
-    return (
+    return (  
       <section className='NoteListMain'>
         <ul>
           {notesForFolder.map(note =>
@@ -50,7 +50,7 @@ export default class NoteListMain extends React.Component {
           )}
         </ul>
         <div className='NoteListMain__button-container'>
-         {circleButton}
+          {circleButton}
         </div>
       </section>
     )
